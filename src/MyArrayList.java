@@ -1,16 +1,15 @@
-import com.sun.tools.javac.Main;
-
 import java.util.Arrays;
+import java.util.Objects;
 
 public class MyArrayList<E> {
 
     private Object[] myArray;
-    private static final int INTITAL_CAPACITY = 10;
+    private static final int INITITAL_CAPACITY = 10;
     private int size;
 
 
     public MyArrayList() {
-        myArray = new Object[INTITAL_CAPACITY];
+        myArray = new Object[INITITAL_CAPACITY];
     }
 
     public void add(E e) {
@@ -28,7 +27,7 @@ public class MyArrayList<E> {
 
     public E get(int index) {
         if (index >= size || index < 0) {
-            throw new RuntimeException("Index out of bound exception");
+            throw new IndexOutOfBoundsException("Index out of bound exception");
         }
         return (E) myArray[index];
     }
@@ -36,13 +35,14 @@ public class MyArrayList<E> {
     public void remove(int index) {
 
         if (index >= size || index < 0) {
-            throw new RuntimeException("Index out of bound exception");
+            throw new IndexOutOfBoundsException("Index out of bound exception");
         }
 
         for (int i = index; i < size - 1; i++) {
             myArray[i] = myArray[i + 1];
         }
         size--;
+        myArray[size] = null;
     }
 
     public int size() {
@@ -50,28 +50,40 @@ public class MyArrayList<E> {
     }
 
     public boolean isEmpty() {
-        return (size == 0) ? true : false;
+        return size == 0 ;
     }
     public String toString() {
-       String elem = "[";
+        StringBuilder elem = new StringBuilder("[");
         for (int i = 0; i < size; i++) {
-            elem += myArray[i];
+            elem.append(myArray[i]);
             if(i==size-1)
                 break;
-            elem+= ", ";
+            elem.append(", ");
         }
-     return elem + "]";
+        elem.append("]");
+        return elem.toString();
 
+   }
+
+    public boolean contains(E e){
+
+      for(int i=0;i<size;i++){
+         if(Objects.equals(myArray[i],e))
+             return true;
+      }
+      return false;
     }
 
-//    public boolean contains(E e){
-//
-//      for(Object i: myArray){
-//          if(i==e){
-//
-//                }
-//      }
-//    }
+    public int index(E e){
+
+        for(int i=0;i< size;i++){
+            if(Objects.equals(myArray[i],e)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
 
 }
@@ -89,21 +101,28 @@ class testArrayList{
       list.add("Rithu");
 
       System.out.println(list);
-      list.add("Varsha");
-      list.add("Sountharya");
-      list.add("Jephin");
+      list.add("Jyothi");
+      list.add("Manikandan");
+      list.add("Amma");
       list.add("Sherlyn");
       list.add("Surian");
       list.add("KP");
 
       System.out.println(list);
       System.out.println(list.size());
-      list.remove(5);
+      list.remove(0);
+      System.out.println(list.get(9));
       System.out.println(list);
       System.out.println(list.size());
       System.out.println("Is list Empty? " + list.isEmpty());
-      list.remove(8);
+      list.remove(9);
       System.out.println(list);
+      System.out.println(list.contains("Amma"));
+      System.out.println(list.contains("Achan"));
+      System.out.println(list.contains(null));
+      System.out.println(list.index("Sambhu"));
+      System.out.println(list.index("Achan"));
+      System.out.println(list.index("Amma"));
     }
 
 
